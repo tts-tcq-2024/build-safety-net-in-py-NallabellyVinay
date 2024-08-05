@@ -24,7 +24,7 @@ def generate_soundex(name):
         code = get_soundex_code(char)
         if code and code != prev_code:
             soundex.append(code)
-            prev_code = code
+        prev_code = code
         if len(soundex) == 4:
             break
 
