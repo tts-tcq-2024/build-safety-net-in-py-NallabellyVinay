@@ -1,3 +1,5 @@
+# Soundex.py
+
 def get_soundex_code(c):
     c = c.upper()
     mapping = {
@@ -9,7 +11,7 @@ def get_soundex_code(c):
         'R': '6'
     }
     return mapping.get(c, '')
-    
+
 def generate_soundex(name):
     if not name:
         return "0000"
