@@ -1,42 +1,29 @@
-# Refactored Soundex.py
+def get_soundex_code(c):
+    c = c.upper()
+    mapping = {
+        'B': '1', 'F': '1', 'P': '1', 'V': '1',
+        'C': '2', 'G': '2', 'J': '2', 'K': '2', 'Q': '2', 'S': '2', 'X': '2', 'Z': '2',
+        'D': '3', 'T': '3',
+        'L': '4',
+        'M': '5', 'N': '5',
+        'R': '6'
+    }
+    return mapping.get(c, '')
 
-class Soundex:
-    def __init__(self):
-        self.soundex_mapping = {
-            'b': '1', 'f': '1', 'p': '1', 'v': '1',
-            'c': '2', 'g': '2', 'j': '2', 'k': '2', 'q': '2', 's': '2', 'x': '2', 'z': '2',
-            'd': '3', 't': '3',
-            'l': '4',
-            'm': '5', 'n': '5',
-            'r': '6'
-        }
+def generate_soundex(name):
+    if not name:
+        return "0000"
     
-    def encode(self, word):
-        if not word:
-            return ""
-        
-        word = word.lower()
-        soundex_code = word[0].upper()
-        previous_digit = ''
-        
-        for char in word[1:]:
-            digit = self._get_digit(char)
-            
-            if digit == previous_digit:
-                continue
-            
-            soundex_code += digit
-            previous_digit = digit
-            
-            if len(soundex_code) == 4:
-                break
-        
-        return self._pad_soundex_code(soundex_code)
-    
-    def _get_digit(self, char):
-        if char in "aeiouyhw":
-            return ''
-        return self.soundex_mapping.get(char, '')
-    
-    def _pad_soundex_code(self, soundex_code):
-        return soundex_code.ljust(4, '0')
+    name = name.upper()
+    soundex = [name[0]]
+    prev_code = get_soundex_code(name[0])
+
+    for char in name[1:]:
+        code = get_soundex_code(char)
+        if code and code != prev_code:
+            soundex.append(code)
+            prev_code = code
+        if len(soundex) == 4:
+            break
+
+    return ''.join(soundex).ljust(4, '0')
