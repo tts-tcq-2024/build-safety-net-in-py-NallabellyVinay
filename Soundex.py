@@ -1,56 +1,42 @@
-def get_soundex_code(c):
-    """
-    Converts a character to its corresponding Soundex code.
+# Refactored Soundex.py
+
+class Soundex:
+    def __init__(self):
+        self.soundex_mapping = {
+            'b': '1', 'f': '1', 'p': '1', 'v': '1',
+            'c': '2', 'g': '2', 'j': '2', 'k': '2', 'q': '2', 's': '2', 'x': '2', 'z': '2',
+            'd': '3', 't': '3',
+            'l': '4',
+            'm': '5', 'n': '5',
+            'r': '6'
+        }
     
-    Parameters:
-    c (str): The character to convert.
+    def encode(self, word):
+        if not word:
+            return ""
+        
+        word = word.lower()
+        soundex_code = word[0].upper()
+        previous_digit = ''
+        
+        for char in word[1:]:
+            digit = self._get_digit(char)
+            
+            if digit == previous_digit:
+                continue
+            
+            soundex_code += digit
+            previous_digit = digit
+            
+            if len(soundex_code) == 4:
+                break
+        
+        return self._pad_soundex_code(soundex_code)
     
-    Returns:
-    str: The Soundex code for the character.
-    """
-    c = c.upper()
-    mapping = {
-        'B': '1', 'F': '1', 'P': '1', 'V': '1',
-        'C': '2', 'G': '2', 'J': '2', 'K': '2', 'Q': '2', 'S': '2', 'X': '2', 'Z': '2',
-        'D': '3', 'T': '3',
-        'L': '4',
-        'M': '5', 'N': '5',
-        'R': '6'
-    }
-    return mapping.get(c, '0')  # Default to '0' for non-mapped characters
-
-
-def generate_soundex(name):
-    """
-    Generates the Soundex code for a given name.
+    def _get_digit(self, char):
+        if char in "aeiouyhw":
+            return ''
+        return self.soundex_mapping.get(char, '')
     
-    Parameters:
-    name (str): The name to convert.
-    
-    Returns:
-    str: The Soundex code for the name.
-    """
-    if not name:
-        return ""
-
-    # Start with the first letter (capitalized)
-    soundex = name[0].upper()
-    prev_code = get_soundex_code(soundex)
-
-    # Process remaining characters
-    for char in name[1:]:
-        code = get_soundex_code(char)
-        if len(soundex) < 4 and code != '0' and code != prev_code:
-            soundex += code
-            prev_code = code
-
-    # Pad with zeros if necessary
-    soundex = soundex.ljust(4, '0')
-
-    return soundex
-
-
-# Test the function
-print(generate_soundex("Robert"))  # Output: R163
-print(generate_soundex("Rupert"))  # Output: R163
-print(generate_soundex("Rubin"))   # Output: R150
+    def _pad_soundex_code(self, soundex_code):
+        return soundex_code.ljust(4, '0')
