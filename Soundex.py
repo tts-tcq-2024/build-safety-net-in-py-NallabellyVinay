@@ -24,5 +24,6 @@ def generate_soundex(name):
             if len(soundex) < 4:
                 soundex.append(code)
             prev_code = code
-
+    
+    # Join the list to form the soundex code and pad if necessary
     return ''.join(soundex).ljust(4, '0')
