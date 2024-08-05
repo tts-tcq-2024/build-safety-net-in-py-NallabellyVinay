@@ -1,5 +1,3 @@
-# Soundex.py
-
 def get_soundex_code(c):
     c = c.upper()
     mapping = {
@@ -17,15 +15,14 @@ def generate_soundex(name):
         return "0000"
     
     name = name.upper()
-    soundex = [name[0]]
+    soundex = [name[0]]  # Start with the first letter
     prev_code = get_soundex_code(name[0])
 
     for char in name[1:]:
         code = get_soundex_code(char)
         if code and code != prev_code:
-            soundex.append(code)
-        prev_code = code
-        if len(soundex) == 4:
-            break
+            if len(soundex) < 4:
+                soundex.append(code)
+            prev_code = code
 
     return ''.join(soundex).ljust(4, '0')
