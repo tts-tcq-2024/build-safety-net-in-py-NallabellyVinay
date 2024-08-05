@@ -13,7 +13,7 @@ def get_soundex_code(c):
 def generate_soundex(name):
     if not name:
         return "0000"
-    
+
     name = name.upper()
     soundex = [name[0]]  # Start with the first letter
     prev_code = get_soundex_code(name[0])
@@ -25,5 +25,5 @@ def generate_soundex(name):
                 soundex.append(code)
             prev_code = code
     
-    # Join the list to form the soundex code and pad if necessary
+    # Convert list to string and pad to ensure length of 4
     return ''.join(soundex).ljust(4, '0')
