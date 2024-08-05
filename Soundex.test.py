@@ -1,5 +1,4 @@
 # Enhanced Soundex.test.py
-
 import unittest
 from Soundex import Soundex
 
