@@ -10,6 +10,7 @@ def get_soundex_code(c):
     }
     return mapping.get(c, '')
 
+
 def generate_soundex(name):
     if not name:
         return "0000"
